@@ -6,7 +6,7 @@
 
 \setlength{\parskip}{1em}
 
-\title{Turing completness of Mersenne Twister}
+\title{Turing completeness of Mersenne Twister}
 \date{2019}
 \author{Kamila Szewczyk}
 
@@ -15,163 +15,162 @@
 \maketitle
 
 \section{Introduction}
-\par In this paper, I will prove Mersenne Twister turing complentess. Mersenne Twister is by far the most popular PRNG\footnote{PseudoRandom Number Generator} in use as of 2019. Mersenne Twister will be used as component of Seed esoteric programming language.
+\par In this paper, I will demonstrate Mersenne Twister-generated programs being capable of interpreting a Turing-complete language. Mersenne Twister is so far the most widespread PRNG\footnote{Pseudorandom number generator} in use as of 2019. Mersenne Twister will be described as a component of Seed esoteric programming language.
 
 \section{Seed programming language}
-\par Seed is a language based on random seeds. Actually, programs only contain two instructions: length and random seed, separated by a space. To execute a Seed program, the seed is fed into a Mersenne Twister random number generator, and the randomness obtained is converted into a string of length bytes, which will be executed by a Befunge-98 interpreter (or compiler).\footnote{https://esolangs.org/wiki/Seed - accessed 16.06.2019}.
+\par Seed is a language based on arbitrary seeds. Programs exclusively contain two instructions, that is, length and random seed separated by a space. To execute a Seed program, the seed is fed into a Mersenne Twister random number generator, and the randomness obtained is transformed into a string of length bytes, which will be executed by a Befunge-98 interpreter (or compiler).\footnote{https://esolangs.org/wiki/Seed - accessed 16.06.2019}.
 
-\par An example Seed program looks like this, and will generate 780 bytes long valid Befunge-98 code.
+\par An illustrational Seed program looks as follows and will generate 780 bytes long valid Befunge-98 code.
 
 \begin{verbatim}
 780 983247832
 \end{verbatim}
 
-\par \textit{Since standard Befunge is considered to be a finite state machine, it is, strictly speaking, not Turing-complete; thus, Seed cannot be Turing-complete either} - states Esolang Wiki. Yet Befunge-98 is compiliant to Funge-98 standard. Wikipedia says: 
+\par \textit{Since standard Befunge is considered to be a finite state machine, it is, strictly speaking, not Turing-complete; thus, Seed cannot be Turing-complete either} - states Esolang Wiki\footnote{Before correction coerced by existence of this document}. Befunge-98 (the variant used by Seed) is compliant to Funge-98 standard. Wikipedia says: 
 
-\par The Befunge-93 specification restricts each valid program to a grid of 80 instructions horizontally by 25 instructions vertically. Program execution which exceeds these limits "wraps around" to a corresponding point on the other side of the grid; a Befunge program is in this manner topologically equivalent to a torus. Since a Befunge-93 program can only have a single stack and its storage array is bounded, the Befunge-93 language is not Turing-complete (however, it has been shown that Befunge-93 is Turing Complete with unbounded stack word size).[4] The later Funge-98 specification provides Turing completeness by removing the size restrictions on the program; rather than wrapping around at a fixed limit, the movement of a Funge-98 instruction pointer follows a model dubbed "Lahey-space" after its originator, Chris Lahey. In this model, the grid behaves like a torus of finite size with respect to wrapping, while still allowing itself to be extended indefinitely.\footnote{https://en.wikipedia.org/wiki/Befunge - accessed 16.06.2019}
+\par The Befunge-93 specification restricts each valid program to a grid of 80 instructions horizontally by 25 instructions vertically. Program execution which exceeds these limits "wraps around" to a corresponding point on the other side of the grid; a Befunge program is in this manner topologically equivalent to a torus. Since a Befunge-93 program can only have a single stack and its storage array is bounded, the Befunge-93 language is not Turing-complete (however, it has been shown that Befunge-93 is Turing-complete with unbounded stack word size). The later Funge-98 specification provides Turing completeness by removing the size restrictions on the program; rather than wrapping around at a fixed limit, the movement of a Funge-98 instruction pointer follows a model dubbed "Lahey-space" after its originator, Chris Lahey. In this model, the grid behaves like a torus of finite size concerning wrapping, while still allowing itself to be extended indefinitely.\footnote{https://en.wikipedia.org/wiki/Befunge - accessed 16.06.2019}
 
-\par This means, Befunge-98 \textbf{is} Turing complete, but Seed may not be, because we aren't able to generate \textbf{all} possible befunge programs, because Mersenne Twister has a period of \begin{math}2^{19937} - 1\end{math}, but, if Mersenne Twister can generate befunge program being another Turing complete language interpreter, Seed is turing complete too.
+\par This means, Befunge-98 \textbf{is} Turing complete, but Seed might not be, because we may not be able to generate \textbf{every} imaginable Befunge-98, because Mersenne Twister has a period of \begin{math}2^{19937} - 1\end{math}, but whether it was able to generate Befunge-98 program being interpreter of another Turing complete language, the proof would have been completed (as implied by thesis of simulation - \textit{If an interpreter for A can be implemented in B, then B can solve at least as many problems as A can.}).a
 
 \section{ByteByteJump}
-\par ByteByteJump is an extremely simple One Instruction Set Computer (OISC). Its single instruction copies 1 byte from a memory location to another, and then performs an unconditional jump. There are two possible ways to prove turing completness of ByteByteJump.
+\par ByteByteJump is a remarkably simplistic One Instruction Set Computer (OISC). Its sole instruction copies a byte from the given memory location to another and then performs an unconditional branch towards a point. There are two reasonable ways to prove it's Turing-complete.
 
-\par ByteByteJump is actually a variation of BitBitJump, that is operating on bits, not bytes, therefore proving BitBitJump is Turing complete can prove Turing completness of ByteByteJump. Simulation is one way to prove Turing completeness - \textit{If an interpreter for A can be implemented in B, then B can solve at least as many problems as A can.}
-Using BitBitJump assembler and standard library\footnote{http://mazonka.com/bbj/bbjasm.cpp and http://mazonka.com/bbj/lib.bbj - accessed 16.06.2019}, it's possible to create brainfuck interpreter:
+\par ByteByteJump is a variation of BitBitJump, that is operating on bits, not bytes, therefore proving BitBitJump is Turing complete can prove Turing-completeness of ByteByteJump. Using BitBitJump assembler and standard library\footnote{http://mazonka.com/bbj/bbjasm.cpp and http://mazonka.com/bbj/lib.bbj - accessed 16.06.2019}, it's possible to create a Brainfuck interpreter:
 
 \begin{verbatim}
-	# BitBitJump brainfuck (DBFI) interpreter by O. Mazonka
-	Z0:0 Z1:0 start
-	.include lib.bbj
-	:mem:0 0 0
-	mem mem
-	ip_start:mem ip:mem ip_end:0
-	mp_start:0 mp:0 mp_end:0
-	x:0 y:0 m1:-1  
-	SPACE:32 MINUS:45 PLUS:43
-	TICK:39 EOL:10 Excl:33
-	LEFT:60 RIGHT:62 LB:91 
-	RB:93 DOT:46 COMMA:44
-start:	.copy ZERO x
-	.in x
-	.ifeq x ZERO initgl chkex
-chkex:	.ifeq x Excl initgl storei
-storei:	.toref x ip
-	.add ip BASE ip
-	0 0 start
-initgl:	.copy ip ip_end
-	.copy ip mp_start
-	.copy ip mp
-	.copy ip mp_end
-	.add mp_end BASE mp_end
-	.copy ip_start ip
-loop:	0 0
-	.deref ip x
-	.ifeq x PLUS plus chk_ms
-plus:	.plus
-	0 0 next_ip
+    # BitBitJump brainfuck (DBFI) interpreter by O. Mazonka
+    Z0:0 Z1:0 start
+    .include lib.bbj
+    :mem:0 0 0
+    mem mem
+    ip_start:mem ip:mem ip_end:0
+    mp_start:0 mp:0 mp_end:0
+    x:0 y:0 m1:-1  
+    SPACE:32 MINUS:45 PLUS:43
+    TICK:39 EOL:10 Excl:33
+    LEFT:60 RIGHT:62 LB:91 
+    RB:93 DOT:46 COMMA:44
+start:    .copy ZERO x
+    .in x
+    .ifeq x ZERO initgl chkex
+chkex:    .ifeq x Excl initgl storei
+storei:    .toref x ip
+    .add ip BASE ip
+    0 0 start
+initgl:    .copy ip ip_end
+    .copy ip mp_start
+    .copy ip mp
+    .copy ip mp_end
+    .add mp_end BASE mp_end
+    .copy ip_start ip
+loop:    0 0
+    .deref ip x
+    .ifeq x PLUS plus chk_ms
+plus:    .plus
+    0 0 next_ip
 chk_ms: .ifeq x MINUS minus chk_lt
-minus:	.minus
-	0 0 next_ip
-chk_lt:	.ifeq x LEFT left chk_rt
-left:	.left
-	0 0 next_ip
+minus:    .minus
+    0 0 next_ip
+chk_lt:    .ifeq x LEFT left chk_rt
+left:    .left
+    0 0 next_ip
 chk_rt: .ifeq x RIGHT right chk_dt
-right:	.right
-	0 0 next_ip
+right:    .right
+    0 0 next_ip
 chk_dt: .ifeq x DOT dot chk_cm
-dot:	.deref mp x
-	.out x
-	0 0 next_ip
+dot:    .deref mp x
+    .out x
+    0 0 next_ip
 chk_cm: .ifeq x COMMA comma chk_lb
-comma:	.copy ZERO x
-	.in x
-	.toref x mp
-	0 0 next_ip
+comma:    .copy ZERO x
+    .in x
+    .toref x mp
+    0 0 next_ip
 chk_lb: .ifeq x LB lb chk_rb
-lb:	.lb
-	0 0 next_ip
+lb:    .lb
+    0 0 next_ip
 chk_rb: .ifeq x RB rb next_ip
-rb:	.rb
-	0 0 next_ip
+rb:    .rb
+    0 0 next_ip
 next_ip: 0 0
-	.add ip BASE ip
-	.ifeq ip ip_end exit loop
-exit:	0 0 -1
-	.def plus : mp x
-	.deref mp x
-	.inc x
-	.toref x mp
-	.end
-	.def minus : mp x
-	.deref mp x
-	.dec x
-	.toref x mp
-	.end
-	.def right : mp BASE mp_end x ZERO
-	.add mp BASE mp
-	.iflt mp mp_end ret incend
+    .add ip BASE ip
+    .ifeq ip ip_end exit loop
+exit:    0 0 -1
+    .def plus : mp x
+    .deref mp x
+    .inc x
+    .toref x mp
+    .end
+    .def minus : mp x
+    .deref mp x
+    .dec x
+    .toref x mp
+    .end
+    .def right : mp BASE mp_end x ZERO
+    .add mp BASE mp
+    .iflt mp mp_end ret incend
 incend: .add mp_end BASE mp_end
-	.copy ZERO x
-	.toref x mp
-ret:	0 0
-	.end
-	.def left : mp BASE
-	.sub mp BASE mp
-	.end
-	.def lb : ip mp x y ZERO ONE BASE LB RB
-	.deref mp x
-	.ifeq x ZERO gort ret
-gort:	.copy ONE y
-loop:	.add ip BASE ip
-	.deref ip cmd
-	.ifeq cmd LB incy chk_rb
+    .copy ZERO x
+    .toref x mp
+ret:    0 0
+    .end
+    .def left : mp BASE
+    .sub mp BASE mp
+    .end
+    .def lb : ip mp x y ZERO ONE BASE LB RB
+    .deref mp x
+    .ifeq x ZERO gort ret
+gort:    .copy ONE y
+loop:    .add ip BASE ip
+    .deref ip cmd
+    .ifeq cmd LB incy chk_rb
 chk_rb: .ifeq cmd RB decy loop
 
-incy:	.inc y
-	0 0 loop
-decy:	.dec y
-	.iflt ZERO y loop ret
-	cmd:0 0
-ret:	0 0
-	.end
-	.def rb : ip mp x y ZERO ONE BASE LB RB
-	.deref mp x
-	.ifeq x ZERO ret golt
-golt:	.copy ONE y
-loop:	.sub ip BASE ip
-	.deref ip cmd
-	.ifeq cmd RB incy chk_lb
+incy:    .inc y
+    0 0 loop
+decy:    .dec y
+    .iflt ZERO y loop ret
+    cmd:0 0
+ret:    0 0
+    .end
+    .def rb : ip mp x y ZERO ONE BASE LB RB
+    .deref mp x
+    .ifeq x ZERO ret golt
+golt:    .copy ONE y
+loop:    .sub ip BASE ip
+    .deref ip cmd
+    .ifeq cmd RB incy chk_lb
 chk_lb: .ifeq cmd LB decy loop
-incy:	.inc y
-	0 0 loop
-decy:	.dec y
-	.iflt ZERO y loop ret
+incy:    .inc y
+    0 0 loop
+decy:    .dec y
+    .iflt ZERO y loop ret
 
-	cmd:0 0
-ret:	0 0
-	.end
-	.def dump : ip_start x y BASE ip_end mp_start mp_end SPACE ip mp TICK EOL
-	.copy ip_start y
-dumpi:	.deref y x
-	.out x
-	.ifeq y ip outi noi
-outi:	.out TICK
-noi:	.add y BASE y
-	.ifeq y ip_end dumpmst dumpi
+    cmd:0 0
+ret:    0 0
+    .end
+    .def dump : ip_start x y BASE ip_end mp_start mp_end SPACE ip mp TICK EOL
+    .copy ip_start y
+dumpi:    .deref y x
+    .out x
+    .ifeq y ip outi noi
+outi:    .out TICK
+noi:    .add y BASE y
+    .ifeq y ip_end dumpmst dumpi
 dumpmst: 0 0
-	.copy mp_start y
-dumpm:	.deref y x
-	.out SPACE
-	.ifeq y mp outm nom
-outm:	.out TICK
-nom:	.prn x
-	.add y BASE y
-	.ifeq y mp_end ret dumpm
-ret: 	.out EOL
-	.end
+    .copy mp_start y
+dumpm:    .deref y x
+    .out SPACE
+    .ifeq y mp outm nom
+outm:    .out TICK
+nom:    .prn x
+    .add y BASE y
+    .ifeq y mp_end ret dumpm
+ret:     .out EOL
+    .end
 \end{verbatim}
 
-\par To prove Turing completness of Brainfuck, we will use the same rule. Daniel Cristofani wrote generic Turing machine emulator written in Brainfuck:
+\par To prove that Brainfuck is Turing-complete (we don't actually have to, because this has been proven before, but for the sake of consistency, the proof will be included), we will use the same rule. Daniel B. Cristofani wrote a generic Turing machine emulator, that I may use as a part of my proof:
 
 \begin{verbatim}
 +++>++>>>+[>>,[>+++++<[[->]<<]<[>]>]>-[<<+++++>>-[<<---->>-[->]<]]<[
@@ -183,7 +182,7 @@ ret: 	.out EOL
 >>]>[-[---[-<]]>]>[+++[<+++++>--]>]+<++[[>+++++<-]<]>>[-.>]
 \end{verbatim}
 
-\par This means, Brainfuck and BitBitJump are turing complete, and may possibly prove that ByteByteJump is turing compelete too. Another method to prove turing completness of ByteByteJump has been partly presented by Esolangs wiki. It's possible to simulate one SUBLEQ instruction tick in ByteByteJump. Suppose we have the following values stored in memory:
+\par This means, Brainfuck and BitBitJump are Turing-complete and may prove that ByteByteJump is Turing-complete too. One could argue here, how does the property of BitBitJump coerce property of ByteByteJump (albeit the only difference between them is copy size). This statement might be completely right, so I've prepared another way to prove this using Subleq as a part of my proof. It's possible to simulate one Subleq instruction tick in ByteByteJump (the solution has been partly presented by Esolang wiki). Suppose we have the following values stored in memory:
 
 \begin{verbatim}
 Address        | Value
@@ -195,7 +194,7 @@ Address        | Value
 03XXYY         | XX-YY
 \end{verbatim}
 
-\par Then the following ByteByteJump program (using 3-byte addresses) will take the byte value at address 100h, subtract the byte value at address 200h, store the resulting byte value at address 300h, and jump to address 400h if the result was negative (>= 80h). Addresses which differ between the big-endian and little-endian versions are marked as bold.
+\par Then the following ByteByteJump program (using 3-byte addresses) will take the byte value at address 100h, subtract the byte value at address 200h, store the resulting byte value at address 300h, and jump to address 400h if the result was negative (>= 80h).
 
 \begin{verbatim}
 Big-endian version           | Little-endian version
@@ -210,7 +209,7 @@ Big-endian version           | Little-endian version
 00003F: ...... ...... ...... | 00003F: ...... ...... ......
 \end{verbatim}
 
-\par Below is the previous ByteByteJump example rewritten in ByteByte/Jump machine code. Instruction words which differ between the big-endian and little-endian versions are marked as bold.
+\par Below is the previous ByteByteJump example rewritten in ByteByte/Jump machine code.
 
 \begin{verbatim}
 Big-endian version           | Little-endian version
@@ -225,177 +224,177 @@ Big-endian version           | Little-endian version
 000027: ......               | 000027: ......
 \end{verbatim}
 
-\par The ByteByteJump version takes up 63 bytes, while the ByteByte/Jump version takes up 39 bytes. At address 00000C in the ByteByte/Jump program, notice the use of multiple (in this case 2) destinations for the move instruction. This proves that ByteByteJump can compute as much as SUBLEQ can, so if SUBLEQ is turing complete, ByteByteJump is too.
+\par The ByteByteJump version takes up 63 bytes, while the ByteByte/Jump version takes up 39 bytes. At address 00000C in the ByteByte/Jump program, notice the use of multiple (in this case 2) destinations for the move instruction. This proves that ByteByteJump can compute as much as Subleq can, therefore whether Subleq is Turing-complete, ByteByteJump is too.
 
-\par This SUBLEQ assembly \footnote{http://mazonka.com/subleq/sqasm.cpp - accessed 16.06.2019} program I wrote is emulating Brainfuck interpreter:
+\par This Subleq assembly \footnote{http://mazonka.com/subleq/sqasm.cpp - accessed 16.06.2019} program is emulating Brainfuck interpreter:
 
 \begin{verbatim}
-	top:top top sqmain
+    top:top top sqmain
 
 _interpret:
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; bp 0
-	bp; sp bp
-	c2 sp
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t1 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t2 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t3 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t4 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t5 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; bp 0
+    bp; sp bp
+    c2 sp
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t1 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t2 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t3 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t4 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t5 0
 
-	t1; t2; bp t1; c1 t1; t1 t2
-	t1; t3; bp t1; c2 t1; t1 t3
-	?+23; ?+21; ?+24; t3 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; t2 Z; Z 0; Z
+    t1; t2; bp t1; c1 t1; t1 t2
+    t1; t3; bp t1; c2 t1; t1 t3
+    ?+23; ?+21; ?+24; t3 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; t2 Z; Z 0; Z
 
-	t1; t2; bp t1; c4 t1; t1 t2
-	?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; c3 Z; Z 0; Z
+    t1; t2; bp t1; c4 t1; t1 t2
+    ?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; c3 Z; Z 0; Z
 l1:
-	t2; t1; bp t2; c5 t2; t2 t1
-	t2; t3; ?+11; t1 Z; Z ?+4; Z; 0 t2; t2 t3
-	t1; t2; bp t1; c4 t1; t1 t2
-	t1; t4; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t4
-	t2; t1; t3 t2; t4 t2; t2 t1
-	t2; t4; ?+11; t1 Z; Z ?+4; Z; 0 t2; t2 t4
-	t1; t4 Z; Z t1 ?+3; Z Z ?+9; Z; t4 t1; t4 t1
-	Z t1 l3
-	t2; t4; bp t2; c5 t2; t2 t4
-	t2; t3; ?+11; t4 Z; Z ?+4; Z; 0 t2; t2 t3
-	t4; t2; bp t4; c4 t4; t4 t2
-	t4; t5; ?+11; t2 Z; Z ?+4; Z; 0 t4; t4 t5
-	t2; t4; t3 t2; t5 t2; t2 t4
-	t2; t5; ?+11; t4 Z; Z ?+4; Z; 0 t2; t2 t5
-	t4; t2; bp t4; dec t4; t4 t2
-	?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; t5 Z; Z 0; Z
+    t2; t1; bp t2; c5 t2; t2 t1
+    t2; t3; ?+11; t1 Z; Z ?+4; Z; 0 t2; t2 t3
+    t1; t2; bp t1; c4 t1; t1 t2
+    t1; t4; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t4
+    t2; t1; t3 t2; t4 t2; t2 t1
+    t2; t4; ?+11; t1 Z; Z ?+4; Z; 0 t2; t2 t4
+    t1; t4 Z; Z t1 ?+3; Z Z ?+9; Z; t4 t1; t4 t1
+    Z t1 l3
+    t2; t4; bp t2; c5 t2; t2 t4
+    t2; t3; ?+11; t4 Z; Z ?+4; Z; 0 t2; t2 t3
+    t4; t2; bp t4; c4 t4; t4 t2
+    t4; t5; ?+11; t2 Z; Z ?+4; Z; 0 t4; t4 t5
+    t2; t4; t3 t2; t5 t2; t2 t4
+    t2; t5; ?+11; t4 Z; Z ?+4; Z; 0 t2; t2 t5
+    t4; t2; bp t4; dec t4; t4 t2
+    ?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; t5 Z; Z 0; Z
 
-	t2; t3; bp t2; dec t2; t2 t3
-	t2; t5; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t5
-	t3; t5 Z; Z t3; Z; c14 t3 ?+3
-	t3 t3 ?+9; t3 Z ?+3; Z Z ?+3; inc t3
-	Z t3 l21
-	t1; t2; bp t1; c2 t1; t1 t2
-	t2 Z; ?+9; Z ?+5; Z; inc 0
+    t2; t3; bp t2; dec t2; t2 t3
+    t2; t5; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t5
+    t3; t5 Z; Z t3; Z; c14 t3 ?+3
+    t3 t3 ?+9; t3 Z ?+3; Z Z ?+3; inc t3
+    Z t3 l21
+    t1; t2; bp t1; c2 t1; t1 t2
+    t2 Z; ?+9; Z ?+5; Z; inc 0
 
-	Z Z l22
+    Z Z l22
 l21:
-	t5; t2; bp t5; dec t5; t5 t2
-	t5; t3; ?+11; t2 Z; Z ?+4; Z; 0 t5; t5 t3
-	t2; t3 Z; Z t2; Z; c13 t2 ?+3
-	t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
-	Z t2 l19
-	t1; t2; bp t1; c2 t1; t1 t2
-	t2 Z; ?+9; Z ?+5; Z; dec 0
+    t5; t2; bp t5; dec t5; t5 t2
+    t5; t3; ?+11; t2 Z; Z ?+4; Z; 0 t5; t5 t3
+    t2; t3 Z; Z t2; Z; c13 t2 ?+3
+    t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
+    Z t2 l19
+    t1; t2; bp t1; c2 t1; t1 t2
+    t2 Z; ?+9; Z ?+5; Z; dec 0
 
-	Z Z l20
+    Z Z l20
 l19:
-	t3; t5; bp t3; dec t3; t3 t5
-	t3; t2; ?+11; t5 Z; Z ?+4; Z; 0 t3; t3 t2
-	t5; t2 Z; Z t5; Z; c12 t5 ?+3
-	t5 t5 ?+9; t5 Z ?+3; Z Z ?+3; inc t5
-	Z t5 l17
-	t1; t2; bp t1; c2 t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t3 Z; ?+9; Z ?+5; Z; inc 0
+    t3; t5; bp t3; dec t3; t3 t5
+    t3; t2; ?+11; t5 Z; Z ?+4; Z; 0 t3; t3 t2
+    t5; t2 Z; Z t5; Z; c12 t5 ?+3
+    t5 t5 ?+9; t5 Z ?+3; Z Z ?+3; inc t5
+    Z t5 l17
+    t1; t2; bp t1; c2 t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t3 Z; ?+9; Z ?+5; Z; inc 0
 
-	Z Z l18
+    Z Z l18
 l17:
-	t2; t3; bp t2; dec t2; t2 t3
-	t2; t5; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t5
-	t3; t5 Z; Z t3; Z; c11 t3 ?+3
-	t3 t3 ?+9; t3 Z ?+3; Z Z ?+3; inc t3
-	Z t3 l15
-	t1; t2; bp t1; c2 t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t3 Z; ?+9; Z ?+5; Z; dec 0
+    t2; t3; bp t2; dec t2; t2 t3
+    t2; t5; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t5
+    t3; t5 Z; Z t3; Z; c11 t3 ?+3
+    t3 t3 ?+9; t3 Z ?+3; Z Z ?+3; inc t3
+    Z t3 l15
+    t1; t2; bp t1; c2 t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t3 Z; ?+9; Z ?+5; Z; dec 0
 
-	Z Z l16
+    Z Z l16
 l15:
-	t5; t2; bp t5; dec t5; t5 t2
-	t5; t3; ?+11; t2 Z; Z ?+4; Z; 0 t5; t5 t3
-	t2; t3 Z; Z t2; Z; c10 t2 ?+3
-	t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
-	Z t2 l13
-	t1; t2; bp t1; c2 t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t2; t1; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t1
-	t1 (-1)
+    t5; t2; bp t5; dec t5; t5 t2
+    t5; t3; ?+11; t2 Z; Z ?+4; Z; 0 t5; t5 t3
+    t2; t3 Z; Z t2; Z; c10 t2 ?+3
+    t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
+    Z t2 l13
+    t1; t2; bp t1; c2 t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t2; t1; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t1
+    t1 (-1)
 
-	Z Z l14
+    Z Z l14
 l13:
-	t3; t5; bp t3; dec t3; t3 t5
-	t3; t2; ?+11; t5 Z; Z ?+4; Z; 0 t3; t3 t2
-	t5; t2 Z; Z t5; Z; c9 t5 ?+3
-	t5 t5 ?+9; t5 Z ?+3; Z Z ?+3; inc t5
-	Z t5 l11
-	t1; (-1) t1
-	t2; t3; bp t2; c2 t2; t2 t3
-	t2; t4; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t4
-	?+23; ?+21; ?+24; t4 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; t1 Z; Z 0; Z
+    t3; t5; bp t3; dec t3; t3 t5
+    t3; t2; ?+11; t5 Z; Z ?+4; Z; 0 t3; t3 t2
+    t5; t2 Z; Z t5; Z; c9 t5 ?+3
+    t5 t5 ?+9; t5 Z ?+3; Z Z ?+3; inc t5
+    Z t5 l11
+    t1; (-1) t1
+    t2; t3; bp t2; c2 t2; t2 t3
+    t2; t4; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t4
+    ?+23; ?+21; ?+24; t4 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; t1 Z; Z 0; Z
 
-	Z Z l12
+    Z Z l12
 l11:
-	t1; t2; bp t1; dec t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t2; t3 Z; Z t2; Z; c7 t2 ?+3
-	t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
-	t3; Z t2 l9
-	t1; t4; bp t1; c2 t1; t1 t4
-	t1; t5; ?+11; t4 Z; Z ?+4; Z; 0 t1; t1 t5
-	t4; t1; ?+11; t5 Z; Z ?+4; Z; 0 t4; t4 t1
-	t5; t1 Z; Z t5 ?+3; Z Z ?+9; Z; t1 t5; t1 t5
-	Z t5 l9; inc t3;
+    t1; t2; bp t1; dec t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t2; t3 Z; Z t2; Z; c7 t2 ?+3
+    t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
+    t3; Z t2 l9
+    t1; t4; bp t1; c2 t1; t1 t4
+    t1; t5; ?+11; t4 Z; Z ?+4; Z; 0 t1; t1 t5
+    t4; t1; ?+11; t5 Z; Z ?+4; Z; 0 t4; t4 t1
+    t5; t1 Z; Z t5 ?+3; Z Z ?+9; Z; t1 t5; t1 t5
+    Z t5 l9; inc t3;
 l9:
-	Z t3 l10
-	t1; t2; bp t1; c6 t1; t1 t2
-	?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; dec Z; Z 0; Z
+    Z t3 l10
+    t1; t2; bp t1; c6 t1; t1 t2
+    ?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; dec Z; Z 0; Z
 
 l4:
-	t1; t2; bp t1; c6 t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t2; t3 Z; Z t2; Z; c3 t2
-	Z t2 l5
-	t1; t2; bp t1; c5 t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t2; t1; bp t2; c4 t2; t2 t1
-	t1 Z; ?+9; Z ?+5; Z; dec 0
-	t2; t4; ?+11; t1 Z; Z ?+4; Z; 0 t2; t2 t4
-	t1; t2; t3 t1; t4 t1; t1 t2
-	t1; t4; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t4
-	t2; t1; bp t2; dec t2; t2 t1
-	?+23; ?+21; ?+24; t1 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; t4 Z; Z 0; Z
+    t1; t2; bp t1; c6 t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t2; t3 Z; Z t2; Z; c3 t2
+    Z t2 l5
+    t1; t2; bp t1; c5 t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t2; t1; bp t2; c4 t2; t2 t1
+    t1 Z; ?+9; Z ?+5; Z; dec 0
+    t2; t4; ?+11; t1 Z; Z ?+4; Z; 0 t2; t2 t4
+    t1; t2; t3 t1; t4 t1; t1 t2
+    t1; t4; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t4
+    t2; t1; bp t2; dec t2; t2 t1
+    ?+23; ?+21; ?+24; t1 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; t4 Z; Z 0; Z
 
-	t2; t3; bp t2; dec t2; t2 t3
-	t2; t1; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t1
-	t3; t1 Z; Z t3; Z; c8 t3 ?+3
-	t3 t3 ?+9; t3 Z ?+3; Z Z ?+3; inc t3
-	Z t3 l7
-	t1; t2; bp t1; c6 t1; t1 t2
-	t2 Z; ?+9; Z ?+5; Z; dec 0
+    t2; t3; bp t2; dec t2; t2 t3
+    t2; t1; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t1
+    t3; t1 Z; Z t3; Z; c8 t3 ?+3
+    t3 t3 ?+9; t3 Z ?+3; Z Z ?+3; inc t3
+    Z t3 l7
+    t1; t2; bp t1; c6 t1; t1 t2
+    t2 Z; ?+9; Z ?+5; Z; dec 0
 
-	Z Z l8
+    Z Z l8
 l7:
-	t1; t2; bp t1; dec t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t2; t3 Z; Z t2; Z; c7 t2 ?+3
-	t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
-	Z t2 l6
-	t1; t2; bp t1; c6 t1; t1 t2
-	t2 Z; ?+9; Z ?+5; Z; inc 0
+    t1; t2; bp t1; dec t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t2; t3 Z; Z t2; Z; c7 t2 ?+3
+    t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
+    Z t2 l6
+    t1; t2; bp t1; c6 t1; t1 t2
+    t2 Z; ?+9; Z ?+5; Z; inc 0
 
 l6:
 l8:
 
-	Z Z l4
+    Z Z l4
 l5:
 
 l10:
@@ -407,107 +406,107 @@ l20:
 l22:
 
 l2:
-	t4; t2; bp t4; c4 t4; t4 t2
-	t2 Z; ?+9; Z ?+5; Z; inc 0
-	Z Z l1
+    t4; t2; bp t4; c4 t4; t4 t2
+    t2 Z; ?+9; Z ?+5; Z; inc 0
+    Z Z l1
 l3:
 
-	?+8; sp ?+4; t5; 0 t5; inc sp
-	?+8; sp ?+4; t4; 0 t4; inc sp
-	?+8; sp ?+4; t3; 0 t3; inc sp
-	?+8; sp ?+4; t2; 0 t2; inc sp
-	?+8; sp ?+4; t1; 0 t1; inc sp
-	sp; bp sp
-	?+8; sp ?+4; bp; 0 bp; inc sp
-	?+8; sp ?+4; ?+7; 0 ?+3; Z Z 0
+    ?+8; sp ?+4; t5; 0 t5; inc sp
+    ?+8; sp ?+4; t4; 0 t4; inc sp
+    ?+8; sp ?+4; t3; 0 t3; inc sp
+    ?+8; sp ?+4; t2; 0 t2; inc sp
+    ?+8; sp ?+4; t1; 0 t1; inc sp
+    sp; bp sp
+    ?+8; sp ?+4; bp; 0 bp; inc sp
+    ?+8; sp ?+4; ?+7; 0 ?+3; Z Z 0
 
 _main:
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; bp 0
-	bp; sp bp
-	c15 sp
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t1 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t2 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t3 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t4 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t5 0
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; t6 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; bp 0
+    bp; sp bp
+    c15 sp
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t1 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t2 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t3 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t4 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t5 0
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; t6 0
 
-	t1; t2; bp t1; c15 t1; t1 t2
-	?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; dec Z; Z 0; Z
+    t1; t2; bp t1; c15 t1; t1 t2
+    ?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; dec Z; Z 0; Z
 
 l23:
-	t1; t2; bp t1; c15 t1; t1 t2
-	t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
-	t2; t3 Z; Z t2 ?+3; Z Z ?+9; Z; t3 t2; t3 t2
-	Z t2 l25
-	t3; (-1) t3
-	t1; t4; bp t1; dec t1; t1 t4
-	t1; t5; bp t1; c16 t1; t1 t5
-	t1; t6; ?+11; t5 Z; Z ?+4; Z; 0 t1; t1 t6
-	t5 Z; ?+9; Z ?+5; Z; inc 0
-	t5; t1; t4 t5; t6 t5; t5 t1
-	?+23; ?+21; ?+24; t1 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; t3 Z; Z 0; Z
+    t1; t2; bp t1; c15 t1; t1 t2
+    t1; t3; ?+11; t2 Z; Z ?+4; Z; 0 t1; t1 t3
+    t2; t3 Z; Z t2 ?+3; Z Z ?+9; Z; t3 t2; t3 t2
+    Z t2 l25
+    t3; (-1) t3
+    t1; t4; bp t1; dec t1; t1 t4
+    t1; t5; bp t1; c16 t1; t1 t5
+    t1; t6; ?+11; t5 Z; Z ?+4; Z; 0 t1; t1 t6
+    t5 Z; ?+9; Z ?+5; Z; inc 0
+    t5; t1; t4 t5; t6 t5; t5 t1
+    ?+23; ?+21; ?+24; t1 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; t3 Z; Z 0; Z
 
-	t2; t1; bp t2; dec t2; t2 t1
-	t2; t3; bp t2; c16 t2; t2 t3
-	t2; t4; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t4
-	t3; t4 Z; Z t3; Z; dec t3
-	t4; t2; t1 t4; t3 t4; t4 t2
-	t4; t3; ?+11; t2 Z; Z ?+4; Z; 0 t4; t4 t3
-	t2; t3 Z; Z t2; Z; c17 t2 ?+3
-	t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
-	t3; inc t3; Z t2 ?+3; Z Z l26
-	t4; t1; bp t4; dec t4; t4 t1
-	t4; t5; bp t4; c16 t4; t4 t5
-	t4; t6; ?+11; t5 Z; Z ?+4; Z; 0 t4; t4 t6
-	t5; t6 Z; Z t5; Z; dec t5
-	t6; t4; t1 t6; t5 t6; t6 t4
-	t6; t5; ?+11; t4 Z; Z ?+4; Z; 0 t6; t6 t5
-	t4; t5 Z; Z t4; Z; c18 t4 ?+3
-	t4 t4 ?+9; t4 Z ?+3; Z Z ?+3; inc t4
-	Z t4 ?+3; Z Z l26; t3;
+    t2; t1; bp t2; dec t2; t2 t1
+    t2; t3; bp t2; c16 t2; t2 t3
+    t2; t4; ?+11; t3 Z; Z ?+4; Z; 0 t2; t2 t4
+    t3; t4 Z; Z t3; Z; dec t3
+    t4; t2; t1 t4; t3 t4; t4 t2
+    t4; t3; ?+11; t2 Z; Z ?+4; Z; 0 t4; t4 t3
+    t2; t3 Z; Z t2; Z; c17 t2 ?+3
+    t2 t2 ?+9; t2 Z ?+3; Z Z ?+3; inc t2
+    t3; inc t3; Z t2 ?+3; Z Z l26
+    t4; t1; bp t4; dec t4; t4 t1
+    t4; t5; bp t4; c16 t4; t4 t5
+    t4; t6; ?+11; t5 Z; Z ?+4; Z; 0 t4; t4 t6
+    t5; t6 Z; Z t5; Z; dec t5
+    t6; t4; t1 t6; t5 t6; t6 t4
+    t6; t5; ?+11; t4 Z; Z ?+4; Z; 0 t6; t6 t5
+    t4; t5 Z; Z t4; Z; c18 t4 ?+3
+    t4 t4 ?+9; t4 Z ?+3; Z Z ?+3; inc t4
+    Z t4 ?+3; Z Z l26; t3;
 l26:
-	Z t3 l27
-	t1; t2; bp t1; c15 t1; t1 t2
-	?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
-	Z ?+11; Z; 0; c3 Z; Z 0; Z
+    Z t3 l27
+    t1; t2; bp t1; c15 t1; t1 t2
+    ?+23; ?+21; ?+24; t2 Z; Z ?+10; Z ?+8
+    Z ?+11; Z; 0; c3 Z; Z 0; Z
 l27:
 
 l24:
-	Z Z l23
+    Z Z l23
 l25:
 
-	t1; t2; bp t1; dec t1; t1 t2
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+9; sp ?+5; t2 Z; Z 0; Z
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; ?+2 0 _interpret; . ?;
-	c5 sp
+    t1; t2; bp t1; dec t1; t1 t2
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+9; sp ?+5; t2 Z; Z 0; Z
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; ?+2 0 _interpret; . ?;
+    c5 sp
 
-	?+8; sp ?+4; t6; 0 t6; inc sp
-	?+8; sp ?+4; t5; 0 t5; inc sp
-	?+8; sp ?+4; t4; 0 t4; inc sp
-	?+8; sp ?+4; t3; 0 t3; inc sp
-	?+8; sp ?+4; t2; 0 t2; inc sp
-	?+8; sp ?+4; t1; 0 t1; inc sp
-	sp; bp sp
-	?+8; sp ?+4; bp; 0 bp; inc sp
-	?+8; sp ?+4; ?+7; 0 ?+3; Z Z 0
+    ?+8; sp ?+4; t6; 0 t6; inc sp
+    ?+8; sp ?+4; t5; 0 t5; inc sp
+    ?+8; sp ?+4; t4; 0 t4; inc sp
+    ?+8; sp ?+4; t3; 0 t3; inc sp
+    ?+8; sp ?+4; t2; 0 t2; inc sp
+    ?+8; sp ?+4; t1; 0 t1; inc sp
+    sp; bp sp
+    ?+8; sp ?+4; bp; 0 bp; inc sp
+    ?+8; sp ?+4; ?+7; 0 ?+3; Z Z 0
 
 sqmain:
-	dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
-	?+6; sp ?+2; ?+2 0 _main; . ?; inc sp
+    dec sp; ?+11; sp ?+7; ?+6; sp ?+2; 0
+    ?+6; sp ?+2; ?+2 0 _main; . ?; inc sp
 
-	Z Z (-1)
+    Z Z (-1)
 
 . c5:-2 c3:0 c17:10 c18:13 c4:2 c2:20 c6:3 c1:4 c12:43 c9:44 c11:45 c10:46 c16:501
  (wrapped) c15:502 c13:60 c14:62 c8:91 c7:93
@@ -518,7 +517,7 @@ sqmain:
 
 \end{verbatim}
 
-\par The interpreter was built from following C code \footnote{https://gist.github.com/maxcountryman/1699708 - accessed 16.06.2019}:
+\par The interpreter was built by translating the following C code \footnote{https://gist.github.com/maxcountryman/1699708 - accessed 16.06.2019}\footnote{Please note that the code was modified to run smoothly on the Subleq virtual machine}:
 
 \begin{verbatim}
 
@@ -558,23 +557,24 @@ void interpret(char * input) {
 
 
 int main(void) {
-    char buf[500];
-    char c, r = 1;
-    for(;r;) {
+    char buf[500], c, r = 1;
+    
+    while(r) {
         buf[c++] = getchar();
         if(buf[c-1] == 10 || buf[c-1] == 13)
             r = 0;
     }
+    
     interpret(buf);
 }
 
 \end{verbatim}
 
-\par It's able to hold up to 500 program bytes (just enough to simulate Cristofani's Turing machine emulator) and 16 memory cells. That may not be enough, but the size can be flexibly changed. The resulting subleq code is pretty big\footnote{https://pastebin.com/TEgwuLsb - accessed 16.06.2019}, it's 16 kilobytes big, but it's doing his job. Turing completness of Brainfuck was proven before, therefore to prove Turing completness of Seed, it's required to create ByteByteJump interpreter in Befunge-98, and then transform it to Seed.
+\par It's able to hold up to 500 program bytes (just enough to simulate Cristofani's Turing machine emulator) and 16 memory cells. That may not be enough, but the size can be flexibly changed. The resulting Subleq code is quite large\footnote{https://pastebin.com/TEgwuLsb - accessed 16.06.2019}, scoring 16 kilobytes. Turing-completeness of Brainfuck has been proven before, therefore to prove Turing-completeness of Seed, it's required to create ByteByteJump interpreter in Befunge-98, and then transform it to Seed.
 
 \section{Proof}
 
-\par The following code ByteByteJump being a reference implementation written in C.
+\par The following code ByteByteJump interpreter I wrote will be a reference for the later code.
 
 \begin{verbatim}
 
@@ -597,7 +597,7 @@ main() {
 
 \end{verbatim}
 
-\par If elements were listed in counter-order they are pushed, A is equal to \verb|*(pc)| and is first, B is second and is equal to \verb|*(pc+1)| and C is third and is equal to \verb|*(pc+2)|, following Befunge code will perform ByteByteJump instruction tick\footnote{If anything is wrong, please contact me!}:
+\par If elements were listed in counter-order they are pushed, A is equal to \verb|*(pc)| and is first, B is second and is equal to \verb|*(pc+1)| and C is third and is equal to \verb|*(pc+2)|, following Befunge-98 code will perform ByteByteJump instruction tick\footnote{If anything is wrong, please contact me!}:
 
 \begin{verbatim}
 v@0~$<
@@ -608,85 +608,22 @@ v`0:\<
  >:,0@
 \end{verbatim}
 
-The problem here is, the registers are immutable, so the place marked with apostrophe needs to implement some kind of storing register values once again. This code is able to perform single ByteByteJump tick. I couldn't find exact code to be generated using Mersenne Twister, but this is close enough:
+\par The problem here is, the registers are immutable, so the place marked with apostrophe needs to implement some kind of storing register values once again.
+
+\par Finally, the Seed code looks such:
 
 \begin{verbatim}
-9$v@0~$<
-  >:0`!|
-  v`0:\<
-  >!v  >'$\@
-   v_$:^
-   >:,0@
+45 14759728162827650584261424512858419005895877927172867170454220018091585985218474762085902733083826251068059609943840519086988076725884395078958794589042745844886106737592949672910353236907359852709093987545679606304425294765684113310391644389491473874560494776640825185411773361155300990850990369822774005176483867432996215272027868894139015703661427796383218596643499838024600655267054692077718540006877263234406979709965241888952618635321321208845458897466631763534810697993568024079129009014941717107557749850564913191661936458586791739377099530930665851468123296351748653781604913119842237411431221626790962751759928247159216436029135498781816145088780705956836618591144442152298379911771295380097462622609168342975911282939759146112865525842040088817955297926164925615287661053316861798127949983775282031545922749806825796571445652740663670545560943568367423856852634278745004342889968051785597832691204510364156575938067476085840495286933849301115231982995187446070355779282089315967458189921803153224641148350866868257788744081402232403400711780387718519011111200967606135859543595263220815717197125830578268807358371833098371448008987559913512056549120127899229363310257363705314682567898390346045689433922715130292374612103956330338234861230990694586628265712470559593219283799436217571334957194959074669358658281391263056088488615331631452088523163515312452667038411917983414222123152730195377822358717411280906290886132046223328553038872108648948685488002500392984258285670521772804200662659718966456688876707641239629764848140937577253734040416849333193209649495220839702240907687512366410404087159627475379507345483004656095914509595092592120744656029237521082380179633388759623932188746800676984948521469106535310244217239583470570828803144516575127575089541478487922869779458209619336688186293695781377232277852611840232096700715633434197235834172838066028298830539913298306562514079385583731530757687828830907931798968104273845421897680841931576575087807519612468427165214877925085362091308710344651493555326224269698020480102462098256214986612141204479950556249394957442729389916010310182484274229352308820327006866942728488835606164637637633384718157300716252802652831838292234455707099676310073946863509964330217577169726701119348589720903741735572590366753719975895356329798071254491342578606726886141228042235257952531167961035578401495446221035361455922519112517889696295907775856705173027935074881118221087955117283937630856640793386766158293318615583730085027846784366868909369106808701104715722810500352454700914118029382959923358201445770970530666384355236832284094858532979170175756493007083906372644947560502353750754104302433701657580319092649840713979529812938814823925444798691334898598601146996395667795616170894691019054564074499975646803699897858088188313547316799111829684537185669892339221485677675166394826538857356814611751087893422989500851252629265875041469005811478084658567757370493665254592190823074542933682487829202595662621724452779251016027845895376028170579041932919481628080095629700032329787577143431192413451059712145551005939179044075862878906696021238739506411122443976682274624503571069996651479567989030425139112053833195908709151452004833258943574098970080890242640710070032975540839763183356852965214952357408266397728041511478072911230530244247907641069188061548305981383288128249331680198741748360627007816561767408742470481838381203893287614662112423409172348680385845390436099186557158672446334565132794752214400565827293803272736638564580506051589204633022041245405644152844659377221167748975568757447900272588474217704585524410543455964290418303932516603192571531287464415931331557591203544702454312952663503639045304171177352543695971502657427679707817721788634603796757417783506559846731593877742404831352318677733816759718954567808593383221001679980932944637605082351078698480553524545469821458050409523938776302095284681311262044832291240798766331974504930691414248001099351825049467763278744099794384818618977532714400021702189807167336416774058995168777870770845307953994434957294550201432709796418079546060877975637811950449504681591832920381747003330383781144995956196613741607984785058262544627281237473002709018507914858905688936051131180658658054472581624787619810612875188699804432540657015668871280687303625216211285787804946220183255872567236414553614612979498889469153759765356621415952951601274027203523552356791975536845321748690233721107078460523591423868819502798793977124457663120971769418752973257093040836935902874779532902222015990433319033910492790853337934335060015613618517834944339433722887709414582825378038896641610301341802483978813619717734
 \end{verbatim}
 
-\par Stray \verb|9| is being pushed, but \verb|$| is taking it away. Finally, the Seed code looks such:
+And it's \textbf{4 637 bytes} big. Given all these step-by-step chaining lemmas, the final and proven thesis is, Seed language is Turing-complete, and Mersenne Twister can generate valid Befunge-98 program, that will be capable of simulating any algorithm's logic can be constructed.
 
-\begin{verbatim}
-57 471429388503565376680257199503422852156958754704572127669200939589655990142916822114748039302
-062337182431660213247001854432748427427442971830423979104542082101307422605191056510324506648566
-937147187598162329689552896634448786360530356452312464289179924937665058720299895440658944181666
-852847388599999124716590575650003924196893612719724854447312844049872388031152104285729451089081
-910972149783821122182426277196517287125773066524054529227823072494859470452159827847903965557261
-445266027784733872798973347091428531513938129301711633009044365488706030065490055157090746828433
-568442012206680450574071467517934704232170994671452551741982416068145783512607693595710537558881
-068181972391169730063655935632353616477434113416248220521038169681532741224342802008888249548756
-228113250642558181549795649257105341655728524427612491767784166880446309420409662719637234302459
-792211819308578418296943621846539393939400157973329784597942531761103148739942282618888012289992
-935703296185512234571824207469272128015506467431527548216400646267615425825571384526519700092537
-709143461301728843056220273707934969932818470170176435064355622299169841070839519382865770122732
-221914220543151981579366742479346994964712025442703250613520148301371782450824457172532601775604
-497571867624457070570289873712785736290773706324704961862185743208017980465108467086205021395602
-775463451986866750950782558755941690647966730747088221066599201878820622476095875601747811706413
-674307229510022422136047098870624811499285517451631100455729949918442232166636212030420752941950
-074583399845273331250933901897210423156044984352691435494201667321772003702285272736062186171719
-753624318241632696720039825373829820661366137994030249240181455110995577204923053037480993278108
-115110803142623640102818516511510729574753656291280680335975595601866258779420547043861753594995
-731399303780994201494527457318090337377560519479139242654845828006182444733339571739602222433117
-385228750225466102986274922225879717568973280877194074541532485572038864218286434538890901923559
-707050842453121844416740985156592534826212606172117865502048528956522367688868522095065355234149
-910993318576748263739478305870284945106976032966073610934808429351546723532884196993547396501683
-090178484851315534169564059116835268962320467738619619117673193734324602177558744816075876043617
-580899360077302534507333758312281271062952592617236117713344685537461607395483759500468319237650
-233293463339687327964131926829367671331223254812733548101247296644001733677813254886568595814387
-699404742293946920895199818109097196282633572849734421775680414163633868915167255929528921680775
-235605840055862767949674920518232906157675992026570608202239286789007746016169080313213468194221
-621230488345329263728683579271147325078122260914884003387798148895780178796702100392626852151788
-469086453002473526269019236564920407938639659713475413647063750269846327136857275159848954971081
-153763279599790475957304436808707649116799836388267329677058445361191929352326458850406160180695
-566108608813664084069943516151895013790240732914312102597620475608593022070256915066596555685121
-983559696445353886815473601597917727312769180217130098053895089995728380356628473350978730771719
-393686785351206897012402527886437495740620096098035840189034419681841936644266556523330400098916
-815559161653924150871363941108508066092234218038822803603852596735644742670505804776631639355024
-329049041075641827178126736139989905527859666187089623992576757632443744571189164468867332822121
-036210582059696384797439813826008481092829959230375261457111657102282377946095075283547039152013
-011918924865944545696988140826324198885780773344424118678865017617379573811127853804866408923111
-667039835203264930086840767395977357927409868155004179454223149434578043999353570953409837286275
-978147235096336632433483250581235588705627739452182266460584295891523904679809831298124820425398
-849821180216085605061960498820254975317580408059572540847914966313281375193667910286346063520135
-289302264568593719753659132448063893629142186933300303558996488701250159858462795487377854575970
-166048000354877636138863559918420028478773279057612654171780057598490999201252972350431650214903
-330230865750326080143545453598217167944285365618277456695239692492318229476543308498886869717162
-739686800020166961093337715213373715295391577878171449098130079025606733038274835719366751557529
-646815119839929982484937155741939508818449664093658596575595604710755484909405669341919868428482
-035058044777492261675473863791396613528076561229843163212478893587483243521582151676334657165277
-608468826557432755851353964880712782991228120968201967348919102781726754872146792628509816384777
-883151749513979275118954341088101802377805301941054257723435496947205068015727380750283421103246
-794923207098426975005880878312863384714639561084582650989646807611668714322126551667518744942716
-086680000503205405262250345593013276804210345071441266977469109386057619304491930284080063250608
-525223192874295221420213108388415500276919673682927192111756190160869743859283545095378166716843
-964738071945159984823191782964579744346558026574705617846532303512151689057873790562325210437128
-399338931460879021950513045251942096096773253938754347962067924946491047388222467585877012326051
-075169656159678525207934203233899344448498605273043409495797263671983903177813894870234178193048
-985139119552795749156722224078569208577712418039230022270169102190422407189239481858729423060879
-740823982643843582973466854557088749238512747871515556268819139678510083447042573649868595765374
-954138342181211640366980068735801489717734997149598544447161330107614677308895400695374753720929
-413500806180693381283178709643010659728640393831305277628054062276224313790680858028828874051157
-041405425027063800536817969362891017027239117405722654712440004905470434497609145813901612690366
-680885716837221135238628541644279313971070756822429568283533246239552909760329141773722636485828
-067102429098064326131576219970710822305711373213499473110079842595007992530529404302853618434765
-32290163463365427394067529345516089483216889987374092363235328
-\end{verbatim}
+\section{How did the reversing happen?}
 
-And it's \textbf{6 014 bytes} big. Given all these partial arguments, the final and proven thesis is, Seed language is turing complete, and Mersenne Twister is able to generate program, that will be capable of simulating any algorithm's logic can be constructed.
+\par The reversal has been done step by step - first, my generator was very naive, so the program size was quite large, then I've managed to reverse Mersenne Twister in an even more efficient way, and finally, I've managed to write a pruning bruteforce program, that generated such piece of code as above. There are a couple of ways to bruteforce a program (the most common one is a naive bruteforce, a quite slow one).
+
+\section{Sources}
+
+\par This paper wouldn't be possible to write (or be significantly harder to) without work of Oleg Mazonka (his BitBitJump, ByteByteJump and Subleq work), Daniel B. Cristofani (for his Brainfuck universal Turing machine emulator), Esolang Wiki and Wikipedia proofreaders and content creators (for great explaining, a lot of effort and time put into the wiki), Mersenne Twister crackers preceding me (it would be significantly harder to get such score on my crack), Chris Pressey (for Befunge), 
 
 \end{document}
